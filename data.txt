@@ -1,0 +1,6 @@
+22,Le Viet Hoang,2.3
+23,Nguyen Van A,1.3
+22,Hoang LV,4
+22,Nguyen Van C,3.8
+22,Nguyen D,3.7
+22,Nguyen Van F,3.5
