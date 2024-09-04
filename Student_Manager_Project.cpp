@@ -33,7 +33,9 @@ int main() {
 
 		cout << "\t\t 6. Sort Student By Gpa Descending " << endl;
 
-		cout << "\t\t 7. Exit" << endl;
+		cout << "\t\t 7. Read data from file " << endl;
+
+		cout << "\t\t 8. Exit" << endl;
 
 		cout << "\t\t Enter Your Choice : ";
 
@@ -62,6 +64,9 @@ int main() {
 			student.sortStudentByGpaDesc(studentList);
 			break;
 		case 7:
+			student.readFromFile("data.txt", studentList);
+			break;
+		case 8:
 			exit(1);
 		default:
 			cout << "\t\t Invalid number " << "\n";

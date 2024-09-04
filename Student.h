@@ -56,6 +56,10 @@ public:
 
 	void sortStudentByGpaDesc(vector<Student>& student);
 
+	void writeToFile(const string& fileName);
+
+	void readFromFile(const string& fileName, vector<Student>& student);
+
 	void display() {
 		cout << "\t\t ID: " << mId << "\n";
 		cout << "\t\t Age: " << mAge << "\n";

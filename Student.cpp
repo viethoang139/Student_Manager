@@ -3,9 +3,11 @@
 #include<string>
 #include<iomanip>
 #include<algorithm>
-#include<type_traits>
+#include<sstream>
+#include<fstream>
 
 void Student::addStudent(vector<Student>& student) {
+	readFromFile("data.txt", student);
 	int age;
 	string name;
 	float gpa;
@@ -21,6 +23,7 @@ void Student::addStudent(vector<Student>& student) {
 	cout << "\t\t Enter gpa: ";
 	cin >> gpa;
 	Student newStudent{ ++gId , age, name, gpa };
+	newStudent.writeToFile("data.txt");
 	student.push_back(newStudent);
 	cout << "\n";
 	cout << "\t\t Add student successfully!!!" << "\n";
@@ -37,7 +40,6 @@ void Student::updateStudent(vector<Student>& student) {
 	int choice;
 	cout << "\t\t Enter id to update: ";
 	cin >> id;
-
 	for (int i = 0; i < student.size(); i++) {
 		if (student[i].getId() == id) {
 			found = true;
@@ -71,16 +73,21 @@ void Student::updateStudent(vector<Student>& student) {
 			default:
 				cout << "\t\t Invalid choice...!" << "\n";
 			}
-		}
-		else {
 			break;
 		}
-		cout << "\t\t Update succuessfully!!!\n\n";
-		return;
 	}
 	if (!found) {
-		cout << "\t\t Student not found " << "\n\n";
+		cout << "\t\t Can not found studen\n\n";
+		return;
 	}
+	ofstream ofs("data.txt", ios::out, ios::trunc);
+	if (ofs.is_open()) {
+		for (Student& stu : student) {
+			ofs << stu.getAge() << "," << stu.getName() << "," << stu.getGpa() << "\n";
+		}
+		ofs.close();
+	}
+	cout << "\t\tUpdate successfully!!!\n\n";
 }
 
 void Student::deleteStudent(vector<Student>& student) {
@@ -97,13 +104,21 @@ void Student::deleteStudent(vector<Student>& student) {
 			found = true;
 			student.erase(student.begin() + i);
 			gId--;
-			cout << "\t\t Student delete successfully" << "\n";
 			break;
 		}
 	}
 	if (!found) {
 		cout << "\t\tStudent not found\n\n";
+		return;
 	}
+	ofstream ofs("data.txt", ios::out, ios::trunc);
+	if (ofs.is_open()) {
+		for (Student& stu : student) {
+			ofs << stu.getAge() << "," << stu.getName() << "," << stu.getGpa() << "\n";
+		}
+		ofs.close();
+	}
+	cout << "\t\t Student delete successfully" << "\n\n";
 }
 
 void Student::searchStudent(vector<Student>& student) {
@@ -133,6 +148,41 @@ void Student::sortStudentByGpaDesc(vector<Student>& student) {
 	}
 	sort(student.begin(), student.end(), Student::comapreGpa);
 	cout << "\t\t Sort successfully\n\n";
+}
+
+void Student::writeToFile(const string& fileName) {
+	ofstream outFile(fileName, ios::app);
+	if (outFile.is_open()) {
+		outFile << getAge() << "," << getName() << "," 
+			<< getGpa() << "\n";
+		outFile.close();
+	}
+	else {
+		cout << "Unable to open file" << "\n";
+	}
+}
+
+void Student::readFromFile(const string& fileName,vector<Student>& student) {
+	ifstream inFile(fileName);
+	if (inFile.is_open()) {
+		string line;
+		while (getline(inFile, line)) {
+			istringstream iss(line);
+			string age, name, gpa;
+			getline(iss, age, ',');
+			getline(iss, name, ',');
+			getline(iss, gpa, ',');
+
+			int ageStudent = stoi(age);
+			float gpaStudent = stof(gpa);
+			student.emplace_back(++gId, ageStudent, name, gpaStudent);
+		}
+		cout << "\t\t Read data successfully\n";
+		inFile.close();
+	}
+	else {
+		cout << "Unable to open file." << "\n";
+	}
 }
 
 void Student::displayAllStudent(vector<Student>& student) {
