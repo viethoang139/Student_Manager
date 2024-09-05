@@ -56,6 +56,8 @@ public:
 
 	void sortStudentByGpaDesc(vector<Student>& student);
 
+	void classifyStudentByGpa(vector<Student>& student);
+
 	void writeToFile(const string& fileName);
 
 	void readFromFile(const string& fileName, vector<Student>& student);

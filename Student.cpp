@@ -3,18 +3,17 @@
 #include<string>
 #include<iomanip>
 #include<algorithm>
+#include<unordered_map>
 #include<sstream>
 #include<fstream>
 
 void Student::addStudent(vector<Student>& student) {
-	readFromFile("data.txt", student);
 	int age;
 	string name;
 	float gpa;
 	if (student.empty()) {
 		gId = 0;
 	}
-
 	cout << "\t\t Enter age: ";
 	cin >> age;
 	cout << "\t\t Enter name: ";
@@ -148,6 +147,48 @@ void Student::sortStudentByGpaDesc(vector<Student>& student) {
 	}
 	sort(student.begin(), student.end(), Student::comapreGpa);
 	cout << "\t\t Sort successfully\n\n";
+}
+
+void Student::classifyStudentByGpa(vector<Student>& student) {
+	unordered_map<string, vector<Student>> map;
+	for (Student& stu : student) {
+		if (stu.getGpa() >= 3.2) {
+			map["excellent"].push_back(stu);
+		}
+		else if (stu.getGpa() >= 2.5) {
+			map["good"].push_back(stu);
+		}
+		else {
+			map["average"].push_back(stu);
+		}
+	}
+	if (!map["excellent"].empty()) {
+		cout << "\t\t Excellent Students: \n\n";
+		sortStudentByGpaDesc(map["excellent"]);
+;		displayAllStudent(map["excellent"]);
+	}
+	else {
+		cout << "\t\t Not found any excellent students. \n\n";
+	}
+
+	if (!map["good"].empty()) {
+		cout << "\t\t Good Students: \n\n";
+		sortStudentByGpaDesc(map["good"]);
+		displayAllStudent(map["good"]);
+	}
+	else {
+		cout << "\t\t Not found any good students. \n\n";
+	}
+
+	if (!map["average"].empty()) {
+		cout << "\t\t Average Students: \n\n";
+		sortStudentByGpaDesc(map["average"]);
+		displayAllStudent(map["average"]);
+	}
+	else {
+		cout << "\t\t Not found any average students. \n\n";
+	}
+
 }
 
 void Student::writeToFile(const string& fileName) {
