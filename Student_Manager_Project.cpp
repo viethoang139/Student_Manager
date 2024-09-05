@@ -12,7 +12,7 @@ int main() {
 	vector<Student>studentList;
 	Student student;
 	char choice;
-
+	student.readFromFile("data.txt", studentList);
 	do {
 		int option;
 		cout << "\n\t\t--------------------------------";
@@ -35,9 +35,7 @@ int main() {
 
 		cout << "\t\t 7. Classify Student By Gpa" << endl;
 
-		cout << "\t\t 8. Read data from file " << endl;
-
-		cout << "\t\t 9. Exit" << endl;
+		cout << "\t\t 8. Exit" << endl;
 
 		cout << "\t\t Enter Your Choice : ";
 
@@ -69,9 +67,6 @@ int main() {
 			student.classifyStudentByGpa(studentList);
 			break;
 		case 8:
-			student.readFromFile("data.txt", studentList);
-			break;
-		case 9:
 			exit(1);
 		default:
 			cout << "\t\t Invalid number " << "\n";

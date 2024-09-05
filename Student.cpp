@@ -140,13 +140,14 @@ void Student::searchStudent(vector<Student>& student) {
 	cout << "\t\t Student not found!!!";
 }
 
-void Student::sortStudentByGpaDesc(vector<Student>& student) {
+void Student::sortStudentByGpaDesc(vector<Student> student) {
 	if (student.empty()) {
 		cout << "\t\t Student list is empty\n\n";
 		return;
 	}
 	sort(student.begin(), student.end(), Student::comapreGpa);
 	cout << "\t\t Sort successfully\n\n";
+	displayAllStudent(student);
 }
 
 void Student::classifyStudentByGpa(vector<Student>& student) {
@@ -162,10 +163,12 @@ void Student::classifyStudentByGpa(vector<Student>& student) {
 			map["average"].push_back(stu);
 		}
 	}
+
 	if (!map["excellent"].empty()) {
 		cout << "\t\t Excellent Students: \n\n";
-		sortStudentByGpaDesc(map["excellent"]);
-;		displayAllStudent(map["excellent"]);
+		vector<Student> excellentStudent = map["excellent"];
+		sort(excellentStudent.begin(), excellentStudent.end(), Student::comapreGpa);
+;		displayAllStudent(excellentStudent);
 	}
 	else {
 		cout << "\t\t Not found any excellent students. \n\n";
@@ -173,8 +176,9 @@ void Student::classifyStudentByGpa(vector<Student>& student) {
 
 	if (!map["good"].empty()) {
 		cout << "\t\t Good Students: \n\n";
-		sortStudentByGpaDesc(map["good"]);
-		displayAllStudent(map["good"]);
+		vector<Student> goodStudent = map["good"];
+		sort(goodStudent.begin(), goodStudent.end(), Student::comapreGpa);
+		displayAllStudent(goodStudent);
 	}
 	else {
 		cout << "\t\t Not found any good students. \n\n";
@@ -182,8 +186,9 @@ void Student::classifyStudentByGpa(vector<Student>& student) {
 
 	if (!map["average"].empty()) {
 		cout << "\t\t Average Students: \n\n";
-		sortStudentByGpaDesc(map["average"]);
-		displayAllStudent(map["average"]);
+		vector<Student> averageStudent = map["average"];
+		sort(averageStudent.begin(), averageStudent.end(), Student::comapreGpa);
+		displayAllStudent(averageStudent);
 	}
 	else {
 		cout << "\t\t Not found any average students. \n\n";
@@ -194,7 +199,7 @@ void Student::classifyStudentByGpa(vector<Student>& student) {
 void Student::writeToFile(const string& fileName) {
 	ofstream outFile(fileName, ios::app);
 	if (outFile.is_open()) {
-		outFile << getAge() << "," << getName() << "," 
+		outFile << getAge() << "," << getName() << ","
 			<< getGpa() << "\n";
 		outFile.close();
 	}
@@ -218,7 +223,6 @@ void Student::readFromFile(const string& fileName,vector<Student>& student) {
 			float gpaStudent = stof(gpa);
 			student.emplace_back(++gId, ageStudent, name, gpaStudent);
 		}
-		cout << "\t\t Read data successfully\n";
 		inFile.close();
 	}
 	else {

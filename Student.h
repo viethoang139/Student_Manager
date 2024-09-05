@@ -54,7 +54,7 @@ public:
 
 	void displayAllStudent(vector<Student>& student);
 
-	void sortStudentByGpaDesc(vector<Student>& student);
+	void sortStudentByGpaDesc(vector<Student> student);
 
 	void classifyStudentByGpa(vector<Student>& student);
 
